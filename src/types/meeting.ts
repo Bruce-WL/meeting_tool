@@ -12,6 +12,26 @@ export interface SummaryCard {
   points: string[];
 }
 
+export interface SummaryModule {
+  id: string;
+  title: string;
+  icon: string;
+  type: string;
+  color: string;
+  points: string[];
+}
+
+export interface SummaryGroup {
+  id: string;
+  title: string;
+  modules: SummaryModule[];
+}
+
+export interface SummaryDetail {
+  key: string;
+  description: string;
+}
+
 export interface TodoItem {
   id: string;
   content: string;
@@ -29,10 +49,17 @@ export interface SmartChapter {
 export interface MeetingData {
   id: string;
   title: string;
+  meetingTopic: string;
+  uploadTime: string;
+  aiDisclaimer: string;
   date: string;
   duration: string;
   participants: MeetingParticipant[];
+  summaryOverview?: string;
   summaryCards: SummaryCard[];
+  summaryGroups?: SummaryGroup[];
+  summaryHighlights?: string[];
+  summaryDetails?: SummaryDetail[];
   todoList: TodoItem[];
   smartChapters: SmartChapter[];
   keyDecisions: string[];

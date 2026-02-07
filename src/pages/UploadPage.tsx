@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import UploadSection from '../components/UploadSection';
 import SummarySection from '../components/SummarySection';
-import { homeHighlights } from '../data/homeData';
+import { homeSummaryGroups, homeSummaryOverview } from '../data/homeData';
 import { ArrowRight } from 'lucide-react';
 
 const UploadPage: React.FC = () => {
@@ -17,9 +17,9 @@ const UploadPage: React.FC = () => {
         </div>
         
         <UploadSection />
-        
-        <SummarySection cards={homeHighlights} />
-        
+
+        <SummarySection overview={homeSummaryOverview} groups={homeSummaryGroups} showHeader={false} boxed={false} />
+
         <div className="flex justify-center mt-8">
           <button
             onClick={() => navigate('/result')}

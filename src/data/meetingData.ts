@@ -3,6 +3,9 @@ import { MeetingData } from '../types/meeting';
 export const meetingData: MeetingData = {
   id: 'mtg_001',
   title: '产品需求评审会议 - AI会议纪要工具',
+  meetingTopic: 'AI会议纪要工具需求评审',
+  uploadTime: '2026-01-27 20:28 (GMT+08)',
+  aiDisclaimer: '智能纪要由 AI 生成，可能不准确，请谨慎甄别后使用。',
   date: '2023-10-24 14:00',
   duration: '45分钟',
   participants: [
@@ -44,6 +47,87 @@ export const meetingData: MeetingData = {
         '使用 Lucide 图标库',
         '卡片式布局，清晰展示信息层级',
       ],
+    },
+  ],
+  summaryOverview:
+    '本次会议围绕 AI 会议纪要工具的目标、技术选型与设计规范进行对齐，明确首期交付范围与关键原则。',
+  summaryGroups: [
+    {
+      id: 'group_1',
+      title: '核心方向与目标',
+      modules: [
+        {
+          id: 'module_1',
+          title: '产品目标',
+          icon: 'Target',
+          type: '核心',
+          color: 'indigo',
+          points: [
+            '聚焦“录音上传 → 转写 → 纪要生成 → 待办抽取”闭环',
+            '首期强调准确性与可追溯性',
+            '沉淀可复用的会议模板与结构化字段',
+          ],
+        },
+        {
+          id: 'module_2',
+          title: '体验原则',
+          icon: 'Sparkles',
+          type: '体验',
+          color: 'rose',
+          points: [
+            '阅读路径清晰，信息密度高但不拥挤',
+            '关键结论与待办优先呈现',
+            '与飞书会议纪要视觉规范保持一致',
+          ],
+        },
+      ],
+    },
+    {
+      id: 'group_2',
+      title: '技术与交付',
+      modules: [
+        {
+          id: 'module_3',
+          title: '技术架构',
+          icon: 'Cpu',
+          type: '技术',
+          color: 'sky',
+          points: [
+            '前端采用 React + Tailwind CSS',
+            '后端使用 Node.js + Express',
+            '大模型 API 负责转写与摘要整理',
+          ],
+        },
+        {
+          id: 'module_4',
+          title: '设计规范',
+          icon: 'Palette',
+          type: '设计',
+          color: 'amber',
+          points: [
+            '卡片化信息结构，层级清晰',
+            '主题色以蓝色为主，辅以柔和彩色模块',
+            '关键内容使用徽章与虚线分隔强调',
+          ],
+        },
+      ],
+    },
+  ],
+  summaryDetails: [
+    {
+      key: '产品定位与目标',
+      description:
+        '团队确认 AI 会议纪要工具的核心价值在于“让会议内容产生可执行价值”，首期聚焦录音上传、自动转写、摘要与待办抽取，要求输出结构化字段以方便复盘与追踪。',
+    },
+    {
+      key: '体验原则与阅读路径',
+      description:
+        '强调信息密度与阅读效率并重，关键结论与待办优先呈现，摘要与原始音视频内容建立可追溯关系，保障准确性与可解释性。',
+    },
+    {
+      key: '技术方案与交付节奏',
+      description:
+        '前端采用 React + Tailwind CSS，后端采用 Node.js + Express，接入大模型 API 进行文本处理与摘要生成，首期版本以准确性与稳定性为目标，逐步扩展协作能力。',
     },
   ],
   todoList: [

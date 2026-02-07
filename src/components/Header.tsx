@@ -8,8 +8,8 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ data }) => {
   return (
-    <div className="mb-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-4">{data.title}</h1>
+    <div className="mb-8 space-y-4">
+      <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">{data.title}</h1>
       <div className="flex flex-wrap gap-6 text-gray-600">
         <div className="flex items-center gap-2">
           <Calendar className="w-5 h-5" />
@@ -19,15 +19,15 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
           <Clock className="w-5 h-5" />
           <span>{data.duration}</span>
         </div>
-        <div className="flex items-center gap-2">
-          <Users className="w-5 h-5" />
-          <div className="flex gap-2">
-            {data.participants.map((p, index) => (
-              <span key={index} className="bg-gray-100 px-2 py-0.5 rounded text-sm">
-                {p.name}
-              </span>
-            ))}
-          </div>
+      </div>
+      <div className="flex items-start gap-3">
+        <Users className="w-5 h-5 text-gray-500 mt-0.5" />
+        <div className="flex flex-wrap gap-2">
+          {data.participants.map((p, index) => (
+            <span key={index} className="bg-gray-100 px-3 py-1 rounded-full text-sm text-gray-700">
+              {p.name}{p.role ? ` · ${p.role}` : ''}
+            </span>
+          ))}
         </div>
       </div>
     </div>
