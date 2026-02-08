@@ -192,22 +192,45 @@ const MeetingMinutesPage: React.FC = () => {
     uploadTime: data.uploadTime || '',
     date: data.date || '',
     duration: data.duration || '',
-    participants: data.participants || [],
-    summaryCards: data.summaryCards || [],
-    summaryOverview: data.summaryOverview,
-    summaryGroups: (data.summaryGroups || []).map(g => ({
+    participants: Array.isArray(data.participants) ? data.participants : [],
+    summaryCards: Array.isArray(data.summaryCards) ? data.summaryCards : [],
+    summaryOverview: data.summaryOverview || '',
+    summaryGroups: Array.isArray(data.summaryGroups) ? data.summaryGroups.map(g => ({
       ...g,
-      modules: (g.modules || []).map(m => ({
+      id: g.id || `group_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      title: g.title || '未命名分组',
+      modules: Array.isArray(g.modules) ? g.modules.map(m => ({
         ...m,
-        points: m.points || []
-      }))
-    })),
-    summaryHighlights: data.summaryHighlights,
-    summaryDetails: data.summaryDetails,
-    todoList: data.todoList || [],
-    smartChapters: data.smartChapters || [],
-    keyDecisions: data.keyDecisions || [],
-    goldenMoments: data.goldenMoments || [],
+        id: m.id || `module_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        title: m.title || '未命名模块',
+        icon: m.icon || 'Target',
+        type: m.type || '通用',
+        color: m.color || 'indigo',
+        points: Array.isArray(m.points) ? m.points : []
+      })) : []
+    })) : [],
+    summaryHighlights: Array.isArray(data.summaryHighlights) ? data.summaryHighlights : [],
+    // 修复 summaryDetails: 使用 points 作为 description
+    summaryDetails: Array.isArray(data.summaryDetails) ? data.summaryDetails.map(d => ({
+      key: d.key || d.points?.split('，')[0] || '未指定',
+      description: d.points || d.description || ''
+    })) : [],
+    // 修复 todoList: 使用 points 作为 content
+    todoList: Array.isArray(data.todoList) ? data.todoList.map(t => ({
+      id: t.id || `todo_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      content: t.points || t.content || '未指定内容',
+      completed: t.completed || false,
+      assignee: t.assignee
+    })) : [],
+    // 修复 smartChapters: 使用 points 作为 summary
+    smartChapters: Array.isArray(data.smartChapters) ? data.smartChapters.map(c => ({
+      id: c.id || `chapter_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      timestamp: c.timestamp || '00:00',
+      title: c.title || '未命名章节',
+      summary: c.points || c.summary || '暂无摘要'
+    })) : [],
+    keyDecisions: Array.isArray(data.keyDecisions) ? data.keyDecisions : [],
+    goldenMoments: Array.isArray(data.goldenMoments) ? data.goldenMoments : [],
   };
 
   return (

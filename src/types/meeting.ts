@@ -30,6 +30,7 @@ export interface SummaryGroup {
 export interface SummaryDetail {
   key: string;
   description: string;
+  points?: string; // 兼容后端返回
 }
 
 export interface TodoItem {
@@ -37,6 +38,7 @@ export interface TodoItem {
   content: string;
   completed: boolean;
   assignee?: string;
+  points?: string; // 兼容后端返回
 }
 
 export interface SmartChapter {
@@ -44,6 +46,7 @@ export interface SmartChapter {
   timestamp: string; // e.g., "00:15"
   title: string;
   summary: string;
+  points?: string; // 兼容后端返回
 }
 
 export interface MeetingData {

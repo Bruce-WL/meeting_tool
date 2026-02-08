@@ -400,10 +400,16 @@ export class LlmService {
 
                 // 1. Universal Fuzzy Normalization
                 parsed = this.deepNormalize(parsed, {
-                    'title': ['groupName', 'groupTitle', 'name', 'moduleName', 'topic'],
-                    'points': ['content', 'summary', 'description', 'bullets', 'details'],
-                    'summaryGroups': ['groups', 'sections'],
-                    'modules': ['items', 'cards']
+                    'title': ['groupName', 'groupTitle', 'name', 'moduleName', 'topic', 'heading'],
+                    'points': ['content', 'summary', 'description', 'bullets', 'details', 'items'],
+                    'summaryGroups': ['groups', 'sections', 'categories'],
+                    'modules': ['items', 'cards', 'components'],
+                    'todoList': ['todos', 'tasks', 'actions', 'actionItems'],
+                    'smartChapters': ['chapters', 'sections', 'segments', 'timeline'],
+                    'keyDecisions': ['decisions', 'resolutions', 'outcomes'],
+                    'goldenMoments': ['highlights', 'quotes', 'keyPoints', 'insights'],
+                    'summaryDetails': ['details', 'explanations', 'descriptions'],
+                    'summaryOverview': ['overview', 'summary', 'abstract', 'synopsis']
                 });
 
                 // 2. Specific Repair Logic (e.g. Ensure arrays)
@@ -470,40 +476,74 @@ export class LlmService {
           if (data.summaryGroups && Array.isArray(data.summaryGroups)) {
             data.summaryGroups.forEach((g: any) => {
               if (!g.id) g.id = uuidv4();
+              if (!g.title) g.title = '未命名分组';
               if (g.modules && Array.isArray(g.modules)) {
                 g.modules.forEach((m: any) => {
                   if (!m.id) m.id = uuidv4();
+                  if (!m.title) m.title = '未命名模块';
+                  if (!m.icon) m.icon = 'Target';
+                  if (!m.type) m.type = '通用';
+                  if (!m.color) m.color = 'indigo';
+                  if (!m.points) m.points = [];
+                  if (!Array.isArray(m.points)) m.points = [String(m.points)];
                 });
               }
             });
           }
 
-          // Validate Part 1: Ensure summaryGroups structure
-          if (!data.summaryGroups || !Array.isArray(data.summaryGroups)) return false;
-          // Deep check modules and points
-          return data.summaryGroups.every((g: any) => 
-            g.modules && Array.isArray(g.modules) && g.modules.every((m: any) => 
-              m.points && Array.isArray(m.points)
-            )
-          );
+          // More lenient validation for Part 1
+          const hasBasicStructure = data.title && data.date && data.duration && data.participants;
+          const hasGroups = !data.summaryGroups || Array.isArray(data.summaryGroups);
+          return hasBasicStructure && hasGroups;
       }),
       generatePart("Part 2", ["summaryDetails", "smartChapters"], MEETING_PART2_SCHEMA, (data) => {
           // Repair: Ensure IDs for smartChapters
           if (data.smartChapters && Array.isArray(data.smartChapters)) {
             data.smartChapters.forEach((c: any) => {
               if (!c.id) c.id = uuidv4();
+              // Ensure required fields exist
+              if (!c.timestamp) c.timestamp = '00:00';
+              if (!c.title) c.title = '未命名章节';
+              // Normalize points -> summary for frontend compatibility
+              if (!c.summary && c.points) {
+                c.summary = c.points;
+                delete c.points;
+              }
+              if (!c.summary) c.summary = '暂无摘要';
             });
           }
-          return Array.isArray(data.summaryDetails) && Array.isArray(data.smartChapters);
+          // Normalize summaryDetails: points -> description
+          if (data.summaryDetails && Array.isArray(data.summaryDetails)) {
+            data.summaryDetails.forEach((d: any) => {
+              if (!d.description && d.points) {
+                d.description = d.points;
+                delete d.points;
+              }
+              if (!d.key) d.key = d.description?.split('，')[0] || '未指定';
+            });
+          }
+          // More lenient validation - allow empty arrays
+          return (data.summaryDetails === undefined || Array.isArray(data.summaryDetails)) && 
+                 (data.smartChapters === undefined || Array.isArray(data.smartChapters));
       }),
       generatePart("Part 3", ["todoList", "keyDecisions", "goldenMoments", "aiDisclaimer"], MEETING_PART3_SCHEMA, (data) => {
           // Repair: Ensure IDs for todoList
           if (data.todoList && Array.isArray(data.todoList)) {
             data.todoList.forEach((t: any) => {
               if (!t.id) t.id = uuidv4();
+              // Normalize points -> content for frontend compatibility
+              if (!t.content && t.points) {
+                t.content = t.points;
+                delete t.points;
+              }
+              if (!t.content) t.content = '未指定内容';
+              if (t.completed === undefined) t.completed = false;
             });
           }
-          return Array.isArray(data.todoList) && Array.isArray(data.keyDecisions) && Array.isArray(data.goldenMoments);
+          // More lenient validation - allow empty arrays and missing fields
+          return (data.todoList === undefined || Array.isArray(data.todoList)) && 
+                 (data.keyDecisions === undefined || Array.isArray(data.keyDecisions)) && 
+                 (data.goldenMoments === undefined || Array.isArray(data.goldenMoments));
       })
     ]);
 
