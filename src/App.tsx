@@ -8,6 +8,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<UploadPage />} />
         <Route path="/result" element={<MeetingMinutesPage />} />
+        <Route path="/result/:taskId" element={<MeetingMinutesPage />} />
       </Routes>
     </Router>
   );

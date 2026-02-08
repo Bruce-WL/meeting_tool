@@ -5,7 +5,6 @@ export const meetingData: MeetingData = {
   title: '产品需求评审会议 - AI会议纪要工具',
   meetingTopic: 'AI会议纪要工具需求评审',
   uploadTime: '2026-01-27 20:28 (GMT+08)',
-  aiDisclaimer: '智能纪要由 AI 生成，可能不准确，请谨慎甄别后使用。',
   date: '2023-10-24 14:00',
   duration: '45分钟',
   participants: [

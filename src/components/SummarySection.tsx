@@ -99,17 +99,17 @@ const SummarySection: React.FC<SummarySectionProps> = ({ overview, groups, showH
             </>
           )}
 
-          {groups.map((group) => (
-            <div key={group.id} className="space-y-4">
+          {groups.map((group, groupIdx) => (
+            <div key={group.id || `group-${groupIdx}`} className="space-y-4">
               <h3 className="text-base font-semibold text-gray-900">{group.title}</h3>
               <div className="grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
-                {group.modules.map((module) => {
+                {(group.modules || []).map((module, moduleIdx) => {
                   const IconComponent = iconMap[module.icon] || Target;
                   const styles = colorStyles[module.color] || colorStyles.indigo;
 
                   return (
                     <div
-                      key={module.id}
+                      key={module.id || `module-${groupIdx}-${moduleIdx}`}
                       className={`rounded-2xl border shadow-sm overflow-hidden flex flex-col ${styles.border} ${styles.bg}`}
                     >
                       <div className="p-5 flex items-center justify-between">
@@ -158,17 +158,17 @@ const SummarySection: React.FC<SummarySectionProps> = ({ overview, groups, showH
           )}
 
           <div className="space-y-8">
-            {groups.map((group) => (
-              <div key={group.id} className="space-y-4">
+            {groups.map((group, groupIdx) => (
+              <div key={group.id || `group-${groupIdx}`} className="space-y-4">
                 <h3 className="text-base font-semibold text-gray-900">{group.title}</h3>
                 <div className="grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
-                  {group.modules.map((module) => {
+                  {(group.modules || []).map((module, moduleIdx) => {
                     const IconComponent = iconMap[module.icon] || Target;
                     const styles = colorStyles[module.color] || colorStyles.indigo;
 
                     return (
                       <div
-                        key={module.id}
+                        key={module.id || `module-${groupIdx}-${moduleIdx}`}
                         className={`rounded-2xl border shadow-sm overflow-hidden flex flex-col ${styles.border} ${styles.bg}`}
                       >
                         <div className="p-5 flex items-center justify-between">

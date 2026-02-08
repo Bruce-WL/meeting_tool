@@ -51,7 +51,8 @@ export interface MeetingData {
   title: string;
   meetingTopic: string;
   uploadTime: string;
-  aiDisclaimer: string;
+  /** @deprecated 仅兼容旧数据，页面已使用固定免责文案 */
+  aiDisclaimer?: string;
   date: string;
   duration: string;
   participants: MeetingParticipant[];
